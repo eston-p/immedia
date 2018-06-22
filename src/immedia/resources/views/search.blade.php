@@ -4,7 +4,22 @@
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-md-8">
-            <div class="card">
+
+                <div class="card">
+                    <div class="card-header">{{ __('Previous Listings') }}</div>
+                    @isset($listings)
+
+                    <ul>
+                        @foreach ($listings as $list)
+                         <li> <a href="{{ '/view/' .  $list->name . '/'.  $list->search  }}" >{{ $list->name  }}</a></li>
+
+                        @endforeach
+                    </ul>
+                    @endisset
+                    <div class="card-body"></div>
+                </div>
+
+                    <div class="card">
                 <div class="card-header">{{ __('Search') }}</div>
 
                 <div class="card-body">

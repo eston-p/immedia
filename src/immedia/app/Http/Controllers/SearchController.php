@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Listings;
 use App\Photos;
 use App\Repository\LandMarkRepository;
 use App\Service\FourSquare;
@@ -38,7 +39,7 @@ class SearchController extends Controller
      */
     public function index(string  $place, string $param)
     {
-        sleep(5);
+        sleep(10);
        $photos =  $this->photos::where('search_place', $place)->where('search_term', $param)->paginate(10);
        return view('view', ['photos' => $photos]);
     }
@@ -55,12 +56,30 @@ class SearchController extends Controller
         $param = $request->input('param');
         $results = $fourSquare->query($place, $param);
 
-        foreach ($results['response']['venues'] as $key => $value) {
-            $value['place'] = $place;
-            $value['param'] = $param;
-            $this->repository->saveLandMarks($value);
+        $listing = new Listings();
+
+        $query = $listing->where('name', $place)->first();
+
+        if (is_null($query)) {
+            $listing->create([
+                'name' => $place,
+                'search' => $param,
+            ]);
+
+            foreach ($results['response']['venues'] as $key => $value) {
+                $value['place'] = $place;
+                $value['param'] = $param;
+                $this->repository->saveLandMarks($value);
+            }
         }
 
         return redirect()->route('view', ['place' => $place, 'param' => $param]);
+
+    }
+
+    public function showListing()
+    {
+        $listing = new Listings();
+        return view('welcome', ['listings' => $listing->all()]);
     }
 }

@@ -11,11 +11,10 @@
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
 
 Auth::routes();
+
+Route::get('/', 'SearchController@showListing')->name('listings');
 
 Route::get('/view/{place}/{param}', 'SearchController@index')->name('view');
 

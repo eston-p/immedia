@@ -20,6 +20,7 @@ class FlickrService
             'lat' => $lat,
             'lon' => $long,
             'content_type' => 1,
+            'per_page' => 10,
             'format' => 'php_serial',
         );
 
