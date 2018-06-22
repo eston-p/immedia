@@ -1,3 +1,4 @@
-mysql/*
-performance_schema/*
-sys/*
+/mysql/*
+/performance_schema/*
+/sys/*
+*
