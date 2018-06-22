@@ -38,6 +38,7 @@ class SearchController extends Controller
      */
     public function index(string  $place, string $param)
     {
+        sleep(5);
        $photos =  $this->photos::where('search_place', $place)->where('search_term', $param)->paginate(10);
        return view('view', ['photos' => $photos]);
     }
